@@ -21,7 +21,7 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-server.listen(port, '0,0,0,0', () => {
+server.listen(port, '0.0.0.0', () => {
   console.log('Server listening at port %d', port);
 });
 
@@ -64,6 +64,10 @@ io.on('connection', (socket) => {
       username: socket.username,
       message: data
     });
+
+    // socket.broadcast.emit('typing', {
+    //   username: "AI advocate",
+    // });
     // get the response from the chatbot
     getResponse(data, socket.username).then((response) => {
       socket.emit('new message', {
@@ -73,6 +77,9 @@ io.on('connection', (socket) => {
     });
     chatHistory += socket.username + ":" + data + '\n';
   });
+  // socket.broadcast.emit('stop typing', {
+  //     username: "AI advocate",
+  //   });
 
   // when the client emits 'add user', this listens and executes
   socket.on('add user', (username) => {
