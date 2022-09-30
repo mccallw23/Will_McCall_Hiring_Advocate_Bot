@@ -4,7 +4,7 @@ const app = express();
 const path = require('path');
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
-const port = '0.0.0.0';
+const port = process.env.PORT || '0.0.0.0';
 const dotenv = require('dotenv').config();
 
 let chatHistory = "";
@@ -21,7 +21,7 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-server.listen(port, () => {
+server.listen(port, '0,0,0,0', () => {
   console.log('Server listening at port %d', port);
 });
 
