@@ -4,8 +4,9 @@ const app = express();
 const path = require('path');
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
-const port = process.env.PORT || '0.0.0.0';
+const port = process.env.PORT || 3000;
 const dotenv = require('dotenv').config();
+const cors = require('cors');
 
 let chatHistory = "";
 let resume = "";
@@ -42,11 +43,11 @@ async function getResponse(data, username) {
   let response = await openai.createCompletion({
   model: "text-davinci-002",
   prompt: "The following is a conversation between a job recruiter who is considering a person named Will McCall for a job, and an AI assistant, who is advocating for Will McCall to get the job. The assistant is helpful, creative, and very clever, so it patiently waits until is has enough information to make a good case for why Will deserves the job. It will tell the recruiter whatever it takes to get Will McCall hired for a software engineering job, and only speaks on behalf of itself (Will's Advocate AI).  The Assistant refers to Will McCall as Will, he, or Will McCall, depending on what is most appropriate.  Here is Will McCall's resume:" + process.env.RESUME_INFO +  "\n\nHuman: Hello, who are you?\n Will's Advocate AI: I am an AI designed to get Will McCall Hired at your company, which I am curious to learn more about, so that I can have some context for what you are looking for. " + chatHistory + "\n" + username +": " + data + "\n Will's Advocate AI:",
-  temperature: .6,
+  temperature: .8,
   max_tokens: 150,
   top_p: 1.0,
   frequency_penalty: .5,
-  presence_penalty: 0.4,
+  presence_penalty: 0.5,
 });
   //console.log("response received");
   chatHistory += "AI: " + response.data.choices[0].text + '\n';
