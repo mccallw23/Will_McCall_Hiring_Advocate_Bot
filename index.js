@@ -72,7 +72,7 @@ async function getResponse(data, username) {
   } else {
     chatHistoryMap.set(username, [username + ": " + data, "Will's Advocate AI: " + response.data.choices[0].text]);
   }
-  console.log("chat history for " + username + ": " + chatHistory + data + response.data.choices[0].text);
+  console.log(username + ":" + data + "\n Will's Advocate AI:" + response.data.choices[0].text);
   // if it has been more than 10 minutes since the time, clear the chat history
   if (new Date().getTime() - time > 600000) {
     chatHistoryMap.clear();
@@ -91,10 +91,10 @@ io.on('connection', (socket) => {
   // when the client emits 'new message', this listens and executes
   socket.on('new message', (data) => {
     // we tell the client to execute 'new message'
-    socket.emit('new message', {
-      username: socket.username,
-      message: data
-    });
+    // socket.emit('new message', {
+    //   username: socket.username,
+    //   message: data
+    // });
     socket.broadcast.emit('typing', {
       username: "Will's Advocate AI",
     });
