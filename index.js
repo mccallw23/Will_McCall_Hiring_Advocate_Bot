@@ -53,8 +53,8 @@ async function getResponse(data, username) {
   let response = await openai.createCompletion({
   model: "text-davinci-002",
   prompt:  "The following is a conversation between a job recruiter who is considering a person named Will McCall for a job, and an AI assistant, who is advocating for Will McCall to get the job. The assistant is helpful, creative, and very clever, so it patiently waits until is has enough information to make a good case for why Will deserves the job. It will tell the recruiter whatever it takes to get Will McCall hired for a software engineering job, and only speaks on behalf of itself (Will's Advocate AI).  The Assistant refers to Will McCall as Will, he, or Will McCall, depending on what is most appropriate.  Here is Will McCall's resume:" + process.env.RESUME_INFO +  "\n\nHuman: Hello, who are you?\n Will's Advocate AI: I am an AI designed to get Will McCall Hired at your company, which I am curious to learn more about, so that I can have some context for what you are looking for. " + chatHistory + "\n" + username +": " + data + "\n Will's Advocate AI:",
-  temperature: .8,
-  max_tokens: 150,
+  temperature: .7,
+  max_tokens: 115,
   top_p: 1.0,
   frequency_penalty: .5,
   presence_penalty: 0.5,
@@ -73,16 +73,6 @@ async function getResponse(data, username) {
     chatHistoryMap.set(username, [username + ": " + data, "Will's Advocate AI: " + response.data.choices[0].text]);
   }
   console.log(username + ":" + data + "\n Will's Advocate AI:" + response.data.choices[0].text);
-  // if it has been more than 10 minutes since the time, clear the chat history
-  if (new Date().getTime() - time > 600000) {
-    chatHistoryMap.clear();
-    time = new Date().getTime();
-    socket.broadcast.emit('new message', { 
-      username: "Server maintenance",
-      message: "The chat history is being cleared..."
-    });
-  }
-
   return response.data.choices[0].text;
 }
 
@@ -98,9 +88,19 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('typing', {
       username: "Will's Advocate AI",
     });
+
+      // if it has been more than 10 minutes since the time, clear the chat history
+  if (new Date().getTime() - time > 600) {
+    chatHistoryMap.clear();
+    time = new Date().getTime();
+    socket.broadcast.emit('new message', { 
+      username: "Server maintenance",
+      message: "The chat history is being cleared..."
+    });
+  }
     getResponse(data, socket.username).then((response) => {
       socket.emit('new message', {
-        username: "Will's Advocate AI:",
+        username: "Will's Advocate AI",
         message: response,
       });
     });

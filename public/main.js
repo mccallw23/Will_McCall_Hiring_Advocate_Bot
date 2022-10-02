@@ -83,7 +83,7 @@ $(function() {
     }
 
     const $usernameDiv = $('<span class="username"/>')
-      .text(data.username)
+      .text(data.username + ":")
       .css('color', getUsernameColor(data.username));
     const $messageBodyDiv = $('<span class="messageBody">')
       .text(data.message);
@@ -227,7 +227,7 @@ $(function() {
   socket.on('login', (data) => {
     connected = true;
     // Display the welcome message
-    const message = 'Welcome to Will\'s AI advocate chat – ';
+    const message = 'Welcome to Will\'s advocate AI chat – ';
     log(message, {
       prepend: true
     });
