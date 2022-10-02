@@ -85,12 +85,12 @@ io.on('connection', (socket) => {
     //   username: socket.username,
     //   message: data
     // });
-    socket.broadcast.emit('typing', {
+    socket.emit('typing', {
       username: "Will's Advocate AI",
     });
 
       // if it has been more than 10 minutes since the time, clear the chat history
-  if (new Date().getTime() - time > 600) {
+  if (new Date().getTime() - time > 6) {
     chatHistoryMap.clear();
     time = new Date().getTime();
     socket.broadcast.emit('new message', { 
