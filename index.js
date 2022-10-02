@@ -39,9 +39,6 @@ let numUsers = 0;
 let botJoined = false;
 // interfaces with the OpenAI API
 async function getResponse(data, username) {
-  // gets the chat response from the chatbot based on a user inpu
-  //console.log("awaiting response"); 
-  //console.log("resume: " + resume);
   
 // create a string where every newline is an entry from the chat history
   let chatHistory = "";
@@ -62,7 +59,6 @@ async function getResponse(data, username) {
   frequency_penalty: .5,
   presence_penalty: 0.5,
 });
-  //console.log("response received");
 
   // store the chat in an array, which keeps track of the last 8 messages in the chat.
   if (chatHistoryMap.has(username)) {
@@ -99,6 +95,9 @@ io.on('connection', (socket) => {
       username: socket.username,
       message: data
     });
+    socket.broadcast.emit('typing', {
+      username: "Will's Advocate AI",
+    });
     getResponse(data, socket.username).then((response) => {
       socket.emit('new message', {
         username: "Will's Advocate AI:",
@@ -107,8 +106,8 @@ io.on('connection', (socket) => {
     });
     // chatHistory += socket.username + ":" + data + '\n';
   });
-  socket.broadcast.emit('stop typing', {
-      username: "AI advocate",
+  socket.emit('stop typing', {
+      username: "Will's Advocate AI",
     });
 
   // when the client emits 'add user', this listens and executes
