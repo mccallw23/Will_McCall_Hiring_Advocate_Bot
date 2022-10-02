@@ -24,13 +24,15 @@ $(function() {
   let typing = false;
   let lastTypingTime;
   let $currentInput = $usernameInput.focus();
+  let count = 0;
 
   const addParticipantsMessage = (data) => {
+    count++;
     let message = '';
     if (data.numUsers === 1) {
       message += `there's 1 participant`;
     } else {
-      message += `there are ${data.numUsers} participants`;
+      message += count + " people have chatted with Will's Advocate AI today";
     }
     log(message);
   }
