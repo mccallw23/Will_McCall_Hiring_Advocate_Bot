@@ -27,12 +27,11 @@ $(function() {
   let count = 0;
 
   const addParticipantsMessage = (data) => {
-    count++;
     let message = '';
     if (data.numUsers === 1) {
       message += `there's 1 participant`;
     } else {
-      message += count + " people have chatted with Will's Advocate AI today";
+      message += "there are " + data.numUsers + " participants";
     }
     log(message);
   }
