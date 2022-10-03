@@ -31,7 +31,7 @@ $(function() {
     if (data.numUsers === 1) {
       message += `there are 2 participants`;
     } else {
-      message += "there are " + data.numUsers + " participants";
+      message += "there are " + 2 + " participants";
     }
     log(message);
   }
