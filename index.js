@@ -58,7 +58,11 @@ async function getResponse(data, username) {
   top_p: 1.0,
   frequency_penalty: .5,
   presence_penalty: 0.5,
+  // catch errors
+}).catch((err) => {
+  console.log(err);
 });
+
 
   // store the chat in an array, which keeps track of the last 8 messages in the chat.
   if (chatHistoryMap.has(username)) {
