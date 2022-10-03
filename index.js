@@ -103,7 +103,15 @@ io.on('connection', (socket) => {
         username: "Will's Advocate AI",
         message: response,
       });
-    });
+    }
+    // catch any errors
+    ).catch((error) => {
+      socket.emit('new message', {
+        username: "Will's Advocate AI",
+        message: "It looks like I'm having some trouble connecting to the server. Please try again later.",
+      });
+    }
+    );
     // chatHistory += socket.username + ":" + data + '\n';
   });
   socket.emit('stop typing', {
