@@ -29,7 +29,7 @@ $(function() {
   const addParticipantsMessage = (data) => {
     let message = '';
     if (data.numUsers === 1) {
-      message += `there are 2 participants`;
+      message += `there is 1 participant`;
     } else {
       message += "there are " + 2 + " participants";
     }
