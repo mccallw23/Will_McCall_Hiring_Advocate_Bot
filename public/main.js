@@ -27,13 +27,13 @@ $(function() {
   let count = 0;
 
   const addParticipantsMessage = (data) => {
-    let message = '';
-    if (data.numUsers === 1) {
-      message += `there is 1 participant`;
-    } else {
-      message += "there are " + 2 + " participants";
-    }
-    log(message);
+    // let message = '';
+    // if (data.numUsers === 1) {
+    //   message += `there is 1 participant`;
+    // } else {
+    //   message += "there are " + 2 + " participants";
+    // }
+    // log(message);
   }
 
   // Sets the client's username
